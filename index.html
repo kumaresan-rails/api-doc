@@ -208,7 +208,7 @@
       </span>
     </a>
     <div class="tocify-wrapper">
-      <img src="images/logo.png" style="height: 100px;margin-left: 25px;" alt="Logo" />
+      <h1 style="color: white;margin-left: 70px;">LIM</h1>
         <div class="lang-selector">
               <a href="#" data-language-name="shell">shell</a>
         </div>
@@ -219,7 +219,7 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
-            <li><a href='#'>Documentation Powered by Duplii</a></li>
+            <li><a href='#'>Documentation Powered by LIM</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -227,140 +227,95 @@
       <div class="content">
         <h1 id="introduction">Introduction</h1>
 
-<p>Welcome to the Dupliii API! You can use our API to access Duplii API endpoints, which can get information on users, leads and other details in our database.</p>
+<p>Welcome to the LIM API! You can use our API to access LIM API endpoints, which can get information on saved URLs and to save the url content(a, h1, h2, h3)</p>
 
-<h1 id="authentication">Authentication</h1>
+<h1 id="url-crawler">URL Crawler</h1>
 
-<blockquote>
-<p>To authorize, use this code:</p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: 44160e5187a1adc599fab593ccae7400"</span>
+<h2 id="save-url-contents">Save URL contents</h2>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://api.lim.com/v1/crawler_urls"</span>
 </code></pre>
 <blockquote>
-<p>Make sure to replace <code class="prettyprint">44160e5187a1adc599fab593ccae7400</code> with your API key.</p>
-</blockquote>
-
-<p>Duplii expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
-
-<p><code class="prettyprint">Authorization: 44160e5187a1adc599fab593ccae7400</code></p>
-
-<aside class="notice">
-You must replace <code>44160e5187a1adc599fab593ccae7400</code> with your personal API key.
-</aside>
-
-<h1 id="users">Users</h1>
-
-<h2 id="create-user">Create User</h2>
-<pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://api.duplii.com/v1/users/create_user"</span>
-  -H <span class="s2">"Authorization: 44160e5187a1adc599fab593ccae7400"</span>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>Example Request JSON:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"response"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User details created successfully!"</span><span class="w">
+    </span><span class="s2">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://testurl.com"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint creates a new user.</p>
+<blockquote>
+<p>Example Success Response JSON:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://testurl.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"content"</span><span class="p">:{</span><span class="w">
+      </span><span class="s2">"a"</span><span class="p">:[</span><span class="s2">"http://emberjs.com/"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://emberjs.com/"</span><span class="p">],</span><span class="w">
+      </span><span class="s2">"h1"</span><span class="p">:[</span><span class="s2">"Building a Simple Component</span><span class="se">\n</span><span class="s2"> Edit Page"</span><span class="p">],</span><span class="w">
+      </span><span class="s2">"h2"</span><span class="p">:[</span><span class="s2">"Hiding and Showing an Image"</span><span class="p">],</span><span class="w">
+      </span><span class="s2">"h3"</span><span class="p">:[]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint save the page contents.</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">POST http://api.duplii.com/v1/users/create_user</code></p>
+<p><code class="prettyprint">POST http://api.lim.com/v1/crawler_urls</code></p>
 
-<h3 id="query-parameters">Query Parameters</h3>
+<h3 id="request-body-parameters">Request Body Parameters</h3>
 
 <table><thead>
 <tr>
 <th>Parameter</th>
-<th>Mandatory</th>
+<th>Type</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>email</td>
-<td>true</td>
-<td>Email address for the new user.</td>
-</tr>
-<tr>
-<td>first_name</td>
-<td>true</td>
-<td>First name of the user.</td>
-</tr>
-<tr>
-<td>last_name</td>
-<td>true</td>
-<td>Last name of the user.</td>
-</tr>
-<tr>
-<td>password</td>
-<td>true</td>
-<td>Password of the user.</td>
+<td>url*</td>
+<td>string</td>
+<td>URL of the saved content</td>
 </tr>
 </tbody></table>
 
-<h2 id="update-user">Update User</h2>
-<pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://api.duplii.com/v1/users/update_user"</span>
-  -H <span class="s2">"Authorization: 44160e5187a1adc599fab593ccae7400"</span>
+<h3 id="errors">Errors</h3>
+
+<table><thead>
+<tr>
+<th>Message</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Url can&rsquo;t be blank</td>
+<td>If the given url is blank.</td>
+</tr>
+<tr>
+<td>Url must be a valid URL</td>
+<td>If the given url not match the url pattern.</td>
+</tr>
+</tbody></table>
+
+<h2 id="get-all-the-saved-urls">Get all the saved URLs</h2>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://api.lim.com/v1/crawler_urls"</span>
 </code></pre>
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>Example Response JSON:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"response"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User details updated successfully!"</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"http://gutmann.info"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"http://ratkebotsford.ca"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"http://fritsch.us"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"http://klocko.us"</span><span class="w">
+  </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>This endpoint updates the given user details.</p>
+<p>This endpoint fetch all the saved urls from the system.</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">POST http://api.duplii.com/v1/users/update_user</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Mandatory</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>email</td>
-<td>true</td>
-<td>Email address for the update user</td>
-</tr>
-<tr>
-<td>first_name</td>
-<td>false</td>
-<td>First name of the user.</td>
-</tr>
-<tr>
-<td>last_name</td>
-<td>false</td>
-<td>Last name of the user.</td>
-</tr>
-<tr>
-<td>password</td>
-<td>false</td>
-<td>Password of the user.</td>
-</tr>
-</tbody></table>
-
-<h1 id="update-call-balance">Update Call Balance</h1>
-<pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://api.duplii.com/v1/update_call_balance"</span>
-  -H <span class="s2">"Authorization: 44160e5187a1adc599fab593ccae7400"</span>
-</code></pre>
-<h3 id="http-request">HTTP Request</h3>
-
-<p><code class="prettyprint">POST http://api.duplii.com/v1/update_call_balance</code></p>
+<p><code class="prettyprint">GET http://api.lim.com/v1/crawler_urls</code></p>
 
           <h1 id="errors">Errors</h1>
 
-<p>Duplii API uses the following error codes:</p>
+<p>LIM API uses the following error codes:</p>
 
 <table><thead>
 <tr>
@@ -391,6 +346,10 @@ You must replace <code>44160e5187a1adc599fab593ccae7400</code> with your persona
 <tr>
 <td>410</td>
 <td>Gone &ndash; The user requested has been removed from our servers</td>
+</tr>
+<tr>
+<td>422</td>
+<td>Unprocessable Entity &ndash; Backend validation erros</td>
 </tr>
 <tr>
 <td>500</td>
